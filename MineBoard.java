@@ -140,8 +140,7 @@ public class MineBoard implements Serializable
      */
     public boolean isInRange(int row, int col)
     {
-        if (col < 0 || row < 0 || row > rows - 1|| col > columns - 1) {return false;}
-        return true;
+        return (col >= 0 && row >= 0 && row < rows && col < columns);
     }
 
     /**
