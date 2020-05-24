@@ -52,9 +52,9 @@ public class MineBoard implements Serializable
      */
     public void generateMines(int xInitial, int yInitial)
     {
-        int x, y;
-        int count = 0;
-        /**
+        int x, y, count = 0;
+        
+        /*
          *                              Algorithm Steps:
          * 1.   Generate a random x and y coordinate
          * 2.   Check to see if the tile at the generated coordinates is the
@@ -72,8 +72,8 @@ public class MineBoard implements Serializable
         {  
             do 
             {
-                x = randXCoord(); 
-                y = randYCoord();
+                x = randCoord(rows); 
+                y = randCoord(columns);
             }
             while (x == xInitial && y == yInitial);
 
@@ -87,17 +87,12 @@ public class MineBoard implements Serializable
     }
     
     /**
-     * Generates a random x coordinate based upon the number of rows in the board.
+     * Generates a random coordinate based upon the number of rows/columns in the board.
+     * @param max The maximum possible coordinate to generate.
      * @return The generated x coordinate.
      */
-    public int randXCoord() {return 1 + (int)((Math.random() * rows - 1));}
+    public int randCoord(int max) {return 1 + (int)((Math.random() * max - 1));}
 
-    /**
-     * Generates a random y coordinate based upon the number of columns in the board
-     * @return The generated y coordinate
-     */
-    public int randYCoord() {return 1 + (int)((Math.random() * columns - 1));}
-   
     /**
      * Determines whether or not the tile at the specified position is a mine or not.
      * @param row The row of the tile to evaluate.
@@ -151,8 +146,11 @@ public class MineBoard implements Serializable
      */
     public void reveal(int row, int col)
     {
-        //If the tile is already opened, nothing else needs to occur.
-        if (board[row][col] == OPENED) {return;}
+        /*
+        * If the tile is already opened, nothing else needs to occur.
+        * Likewise, a flagged tile should not be revealed. 
+        */
+        if (board[row][col] == OPENED || getState(row, col) == FLAGGED) {return;}
 
         //If it's the first move of the game, generate mines and reveal nearby tiles
         if (firstClick)
@@ -278,7 +276,7 @@ public class MineBoard implements Serializable
      * Declares whether or not the game should end.
      * @param gameOver boolean value representing the game's state.
      */
-    public void setGameOver(boolean gameOver) {this.gameOver = gameOver;}
+    private void setGameOver(boolean gameOver) {this.gameOver = gameOver;}
 
     /**
      * Returns True if the game is over.
