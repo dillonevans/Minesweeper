@@ -53,7 +53,7 @@ public class MineBoard implements Serializable
     public void generateMines(int xInitial, int yInitial)
     {
         int x, y, count = 0;
-        
+
         /*
          *                              Algorithm Steps:
          * 1.   Generate a random x and y coordinate
@@ -89,7 +89,7 @@ public class MineBoard implements Serializable
     /**
      * Generates a random coordinate based upon the number of rows/columns in the board.
      * @param max The maximum possible coordinate to generate.
-     * @return The generated x coordinate.
+     * @return The generated x/y coordinate.
      */
     public int randCoord(int max) {return 1 + (int)((Math.random() * max - 1));}
 
