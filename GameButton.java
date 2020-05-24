@@ -38,8 +38,18 @@ public class GameButton extends JButton
                     //Right-Click
                     if (e.getButton() == 3 && frame.getModel().getState(row, col) != MineBoard.OPENED)
                     {
-                        //This will either flag, question, or revert to hidden
-                        frame.getModel().setState(row, col);
+                        switch (frame.getModel().getState(row, col))
+                        {
+                            case MineBoard.HIDDEN_TILE:
+                                frame.getModel().flag(row, col);
+                                break;
+                            case MineBoard.FLAGGED:
+                                frame.getModel().question(row, col);
+                                break;
+                            case MineBoard.QUESTION:
+                                frame.getModel().hide(row, col);
+                                break;
+                        }
                     }
                     
                     //Update the contents of the panel to reflect changes

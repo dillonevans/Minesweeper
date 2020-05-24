@@ -1,7 +1,8 @@
 import java.io.Serializable;
 
 /**
- * The Model
+ * The Model. This class allows the minesweeper game to be completely playable
+ * within the console (given a main() method) as well as a graphical user interface.
  */
 public class MineBoard implements Serializable
 {
@@ -213,44 +214,60 @@ public class MineBoard implements Serializable
     }
 
     /**
-     * Cycles through the states of a tile based on the tile's current state.
-     * @param row The row of the specified tile.
-     * @param col THe column of the specified tile.
+     * Transitions the tile from the hidden state to the flagged state.
+     * If the flag count is greater than 0, then the tile can be flagged 
+     * and the number of mines can be decremented. Conversely, if there
+     * are no remaining flags, simply mark is as being questioned instead.
+     * @param row The row coordinate
+     * @param col The column coordinate
      */
-    public void setState(int row , int col)
+    public void flag(int row, int col)
     {
-        int state = gameBoard[row][col];
-        switch(state)
+        if (getState(row, col) == HIDDEN_TILE)
         {
-            case HIDDEN_TILE: //Transition from Hidden to Flagged
-                if (flagCount > 0) 
-                {
-                    state = FLAGGED; flagCount--; 
-                    if (board[row][col] == MINE) {mineCount--;}
-                    if (flagCount == 0 && mineCount == 0) {setGameOver(true);}
-                }
-                else {state = QUESTION;}
-                break;
-
-            case FLAGGED: //Transition from Flagged to Questioned
-                state = QUESTION; 
-                if (flagCount >= 0)
-                flagCount++;
-                if (board[row][col] == MINE) {mineCount++;}
-                break;
-
-            case QUESTION: //Transition from Questioned back to Hidden
-                state = HIDDEN_TILE;
-                break;        
+            if (flagCount > 0)
+            {
+                flagCount--;
+                gameBoard[row][col] = FLAGGED;
+                if (isMine(row, col)) {mineCount--;}
+                if (mineCount == 0) {setGameOver(true);}
+            }
+            else {gameBoard[row][col] = QUESTION;}
         }
-        gameBoard[row][col] = state;
+    }
+
+    /**
+     * Transitions the tile from the flagged state to the questioned state and increments 
+     * the number of flags available.
+     * Furthermore, if a mine WAS flagged and subsequently questioned, increment
+     * the minecount. 
+     * @param row The row coordinate
+     * @param col The column coordinate
+     */
+    public void question(int row, int col)
+    {
+        flagCount++;
+        if (isMine(row, col))
+        {
+            mineCount++;
+        }
+        gameBoard[row][col] = QUESTION;
+    }
+
+    /**
+     * Reverts the tile from the questioned state back to hidden
+     * @param row The row coordinate
+     * @param col The column coordinate
+     */
+    public void hide(int row, int col)
+    {
+        gameBoard[row][col] = HIDDEN_TILE;
     }
 
     /**
      * Returns the state of the specified tile.
      * @param row Designates the row.
      * @param col Desginates the column.
-     * @return
      */
     public int getState(int row, int col) {return gameBoard[row][col];}
 
