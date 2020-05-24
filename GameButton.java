@@ -36,7 +36,7 @@ public class GameButton extends JButton
                         }
                     }
                     //Right-Click
-                    if (e.getButton() == 3 && frame.getModel().getState(row, col) != MineBoard.OPENED)
+                    if (e.getButton() == 3)
                     {
                         switch (frame.getModel().getState(row, col))
                         {
