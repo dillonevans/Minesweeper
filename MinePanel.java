@@ -82,12 +82,19 @@ public class MinePanel extends JPanel
     }
 
     /**
-     * Update the tiles of the panel.
+     * This method is only called when a button is clicked, so 
+     * it only updates the tiles when it has to. This improves 
+     * efficiency by not updating every time the frame is repainted.
+     * Furthermore, it only updates every tile if a recursive reveal happens
+     * or a mine is hit, otherwise it singly updates the clicked tile.
      * @param r The row of the current tile.
      * @param c The column of the current tile.
+     * @see updateTileImage(int row, int col, int state)
      */
     public void updatePanel(int r, int c)
     {
+        int state = 0;
+        
         //In this case, recursive reveal happens so every tile needs to be checked
         if(frame.getModel().determineAdjacent(r, c) == 0)
         {
@@ -95,7 +102,7 @@ public class MinePanel extends JPanel
             {
                 for (int column = 0; column < columns; column++)
                 {
-                    int state = frame.getModel().getState(row, column);
+                    state = frame.getModel().getState(row, column);
                     updateTileImage(row, column, state);      
                 }
             }
@@ -127,7 +134,7 @@ public class MinePanel extends JPanel
                 }
             }
 
-            //Update the clicked mine to display that it was the opened tile
+            //Update the clicked tile to display that it was the opened mine
             tiles[r][c].setImage(openedMine, imageSize, imageSize);
             JOptionPane.showMessageDialog(null, "Game Over. Mines Remaining: " + frame.getModel().getMineCount());
         }
