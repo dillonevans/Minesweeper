@@ -111,78 +111,27 @@ public class MineBoard implements Serializable
     {
         int adjacent = 0;
         
-        //Bottom three adjacent
-        if (row + 1 < rows)
+        for (int i = -1; i <= 1; i++)
         {
-            //Bottom-Center
-            if (board[row + 1][col] == MINE)
+            for (int j = -1; j <= 1; j++)
             {
-                adjacent++;
-            }
-            if (col + 1 < columns)
-            {
-                //Bottom-Right
-                if (board[row + 1][col+1] == MINE)
+                if (isInRange(row + i, col + j))
                 {
-                    adjacent++;
+                    if (isMine(row+i, col+j))
+                    {
+                        adjacent++;
+                    }
                 }
-            }
-            if (col - 1 >= 0)
-            {
-                //Below-Left
-                if (board[row + 1][col-1] == MINE)
-                {
-                    adjacent++;
-                }
-            }
-         }
-
-         //Top three adjacent
-         if (row - 1 >= 0)
-         {
-             if (col + 1 < columns)
-             {
-                //Top-Right
-                if (board[row - 1][col+1] == MINE)
-                {
-                    adjacent++;
-                }
-            }
-            if (col - 1 >= 0)
-            {
-                //Top-Left
-                if (board[row - 1][col-1] == MINE)
-                {
-                    adjacent++;
-                }
-            }
-            //Top-Center
-            if (board[row - 1][col] == MINE)
-            {
-                adjacent++;
-            }
-         }
-
-         //Left and Right adjacent
-         if (col + 1 < columns)
-         {
-            //Right-Adjacent
-            if (board[row][col+1] == MINE)
-            {
-                adjacent++;
             }
         }
-            
-        if (col - 1 >= 0)
-        {
-            //Left-Adjacent
-            if (board[row][col-1] == MINE)
-            {
-                adjacent++;
-            }
-        }
-
         return adjacent;
+    }
+
+
+    public boolean isInRange(int row, int col)
+    {
+        if (col < 0 || row < 0 || row > rows - 1|| col > columns - 1) {return false;}
+        return true;
     }
 
     /**
@@ -229,7 +178,7 @@ public class MineBoard implements Serializable
     private void revealAll(int row, int col)
     {
         //If the row and/or column is out of bounds, return control to calling instance.
-        if (col < 0 || row < 0 || row > rows - 1|| col > columns - 1) {return;}
+        if (!isInRange(row, col)) {return;}
         //If a mine or visited tile is encountered, return control to calling instance.
         if (isMine(row, col) || board[row][col] == OPENED) {return;}
         //If the tile is flagged, increment the number of available flags
