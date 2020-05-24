@@ -20,23 +20,10 @@ public class GameButton extends JButton
                     //Left-Click
                     if (e.getButton() == 1)
                     {
-                        //If it's not flagged, reveal
-                        if (frame.getModel().getState(row, col) != MineBoard.FLAGGED)
-                        {
-                            //If the revealed tile is a mine, end the game
-                            if (frame.getModel().isMine(row, col))
-                            {
-                                frame.getModel().setGameOver(true);
-                            }
-                            //Otherwise, perform the reveal method as normal
-                            else
-                            {
-                                frame.getModel().reveal(row, col);
-                            }
-                        }
+                        frame.getModel().reveal(row, col);
                     }
                     //Right-Click
-                    if (e.getButton() == 3)
+                    else if (e.getButton() == 3)
                     {
                         switch (frame.getModel().getState(row, col))
                         {
