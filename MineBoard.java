@@ -245,12 +245,15 @@ public class MineBoard implements Serializable
      */
     public void question(int row, int col)
     {
-        flagCount++;
-        if (isMine(row, col))
+        if (board[row][col] != OPENED)
         {
-            mineCount++;
+            flagCount++;
+            if (isMine(row, col))
+            {
+                mineCount++;
+            }
+            gameBoard[row][col] = QUESTION;
         }
-        gameBoard[row][col] = QUESTION;
     }
 
     /**
@@ -260,6 +263,7 @@ public class MineBoard implements Serializable
      */
     public void hide(int row, int col)
     {
+        if (board[row][col] != OPENED)
         gameBoard[row][col] = HIDDEN_TILE;
     }
 
