@@ -3,6 +3,11 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 import java.nio.file.*;
+
+/**
+ * This class acts as a menu for the player. Here they can change the difficult,
+ * save and load the game, or exit.
+ */
 public class FileMenu extends JMenuBar implements ActionListener
 {
     private static final long serialVersionUID = 459585961076461945L;
@@ -23,6 +28,9 @@ public class FileMenu extends JMenuBar implements ActionListener
         initializeMenu();
     }
 
+    /**
+     * Instantiates objects and adds menu items.
+     */
     private void initializeMenu()
     {
         exitItem = new JMenuItem("Quit Game");
@@ -61,6 +69,9 @@ public class FileMenu extends JMenuBar implements ActionListener
         exitItem.addActionListener(this);  
     }
 
+    /**
+     * This event occurs when the player clicks a menu item.
+     */
     @Override
     public void actionPerformed(ActionEvent e) 
     {
@@ -70,7 +81,8 @@ public class FileMenu extends JMenuBar implements ActionListener
         MineBoard board = null;
         int fileVal;
         boolean saved = false;
-        
+
+        //This block of if-else statements handles player decisions.
         if (temp.equals(easy))
         {
             board = new MineBoard(10,10,10);
@@ -89,6 +101,7 @@ public class FileMenu extends JMenuBar implements ActionListener
         }
         else if (temp.equals(loadItem))
         {
+            //Error handling for any possible issue(s) while loading a file. 
             try
             {  
                 fileVal = fileChooser.showOpenDialog(temp);
@@ -131,6 +144,7 @@ public class FileMenu extends JMenuBar implements ActionListener
         else if (temp.equals(saveItem))
         {
             saved = true;
+            //Error handling for any possible issue(s) while saving a file.
             try
             {
                 fileVal = fileChooser.showSaveDialog(temp);
@@ -152,8 +166,9 @@ public class FileMenu extends JMenuBar implements ActionListener
                 board = frame.getModel();
             }
         }
-
-        if (!saved) //Any event other than saving requires updating the frame/board
+        
+        //Any event other than saving requires updating the frame/board
+        if (!saved) 
         {
             frame.setModel(board);
             updateFrame();

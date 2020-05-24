@@ -1,6 +1,9 @@
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * This frame contains the "MinePanel" which serves as the view of the game.
+ */
 public class MineFrame extends JFrame
 {
     private static final long serialVersionUID = 4816731330494815932L;

@@ -160,8 +160,7 @@ public class MinePanel extends JPanel
             //This handles tiles with an adjacency of 0-8
             default: 
                 tiles[row][column].setImage(iconsList.get(state), imageSize, imageSize);
-                break;
-                       
+                break;          
         }  
     }
 

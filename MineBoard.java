@@ -13,7 +13,7 @@ public class MineBoard implements Serializable
     public static final int QUESTION = -3;
     public static final int HIDDEN_TILE = -1;
     public static final int ZERO_TILE = 0;
-    private int rows, columns, maximumMines, flagCount, mineCount;
+    private int rows, columns, flagCount, mineCount;
     private boolean gameOver = false;
     private int[][] board, gameBoard;
     private boolean firstClick = true;
@@ -27,10 +27,9 @@ public class MineBoard implements Serializable
      */
     public MineBoard(int r, int c, int mines)
     {
-        mineCount = mines;
+        flagCount = mineCount = mines;
         rows = r;
         columns = c;
-        maximumMines = flagCount = mineCount;
 
         board = new int[rows][columns];
         gameBoard = new int[rows][columns];
@@ -55,11 +54,22 @@ public class MineBoard implements Serializable
     {
         int x, y;
         int count = 0;
+        /**
+         *                              Algorithm Steps:
+         * 1.   Generate a random x and y coordinate
+         * 2.   Check to see if the tile at the generated coordinates is the
+         *      initial tile. If so, regenerate. This ensures that the first click
+         *      can never cost the user the game. Otherwise, proceed to step 3.
+         * 3.   Set the tile located at the generated x and y coordinate to 
+         *      be a mine temporarily.
+         * 4.   If this results in the first tile clicked having an adjacency higher than 0, 
+         *      revert the tile to being hidden and repeat steps 1-3. Otherwise, leave 
+         *      the tile as a mine and increment the number of placed mines. 
+         * 5.   Repeat steps 1-4 until all mines have been placed.
+         */
         
-        //Keep generating mines until the max is reached
-        while (count < maximumMines)
+        while (count < mineCount)
         {  
-            //Ensures that the first tile cannot be a mine
             do 
             {
                 x = randXCoord(); 
@@ -69,13 +79,8 @@ public class MineBoard implements Serializable
 
             if (board[x][y] != MINE)
             {
-                //Set the current tile to be a mine to test adjacency
                 board[x][y] = MINE;
-
-                //If the initial tile has no adjacent mines, proceed as normal
                 if (determineAdjacent(xInitial, yInitial) == 0) {count++;}
-    
-                //Otherwise, set the tile to hidden and try again
                 else {board[x][y] = HIDDEN;}
             }
         }
@@ -127,7 +132,12 @@ public class MineBoard implements Serializable
         return adjacent;
     }
 
-
+    /**
+     * Determines if the given coordinates are within the range of the board.
+     * @param row The row coordinate to check for.
+     * @param col The column coordinate to check for.
+     * @return True if the given coordinates are valid for the board.
+     */
     public boolean isInRange(int row, int col)
     {
         if (col < 0 || row < 0 || row > rows - 1|| col > columns - 1) {return false;}
@@ -253,15 +263,26 @@ public class MineBoard implements Serializable
 
     /**
      * Returns True if the game is over.
-     * @return True if the game is over.
      */
     public boolean isGameOver() {return gameOver;}
 
+    /**
+     * Returns the number of mines remaining
+     */
     public int getMineCount() {return mineCount;}
 
+    /**
+     * Returns the number of rows in the board
+     */
     public int getRows() {return rows;}
 
+    /**
+     * Returns the number of columns in the board
+     */
     public int getColumns() {return columns;}
 
+    /**
+     * Returns the number of flags available.
+     */
     public int getFlagCount() {return flagCount;}
 } 
