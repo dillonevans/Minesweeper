@@ -17,7 +17,6 @@ public class MineBoard implements Serializable
     private boolean gameOver = false;
     private int[][] board, gameBoard;
     private boolean firstClick = true;
-    
 
     /**
      * Instantiates the model.
