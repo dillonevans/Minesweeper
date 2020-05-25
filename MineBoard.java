@@ -46,7 +46,8 @@ public class MineBoard implements Serializable
     /**
      * Fills the grid with randomly generated mines around the player's initial click. This
      * method ensures that the generated mine will never be the initial tile and that the initial tile is 
-     * always a zero-tile.
+     * always a zero-tile. The average time for this algorithm to finish is 0 milliseconds for 
+     * each difficulty.
      * @param xInitial The x coordinate of the initial tile.
      * @param yInitial The y coordinate of the initial tile.
      */
@@ -85,21 +86,6 @@ public class MineBoard implements Serializable
             }
         }
     }
-    
-    /**
-     * Generates a random coordinate based upon the number of rows/columns in the board.
-     * @param max The maximum possible coordinate to generate.
-     * @return The generated x/y coordinate.
-     */
-    public int randCoord(int max) {return 1 + (int)((Math.random() * max - 1));}
-
-    /**
-     * Determines whether or not the tile at the specified position is a mine or not.
-     * @param row The row of the tile to evaluate.
-     * @param col The column of the tile to evaluate.
-     * @return True if the tile is a mine
-     */
-    public boolean isMine(int row, int col) {return board[row][col] == MINE;}
 
     /**
      * Determines the number of adjacent mines in a 3x3 square.
@@ -111,6 +97,7 @@ public class MineBoard implements Serializable
     {
         int adjacent = 0;
         
+        //Iterates over every tile in the 3x3 square
         for (int i = -1; i <= 1; i++)
         {
             for (int j = -1; j <= 1; j++)
@@ -128,17 +115,6 @@ public class MineBoard implements Serializable
     }
 
     /**
-     * Determines if the given coordinates are within the range of the board.
-     * @param row The row coordinate to check for.
-     * @param col The column coordinate to check for.
-     * @return True if the given coordinates are valid for the board.
-     */
-    public boolean isInRange(int row, int col)
-    {
-        return (col >= 0 && row >= 0 && row < rows && col < columns);
-    }
-
-    /**
      * Reveals the current tile
      * @param row Designates the row
      * @param col Designates the column
@@ -147,9 +123,9 @@ public class MineBoard implements Serializable
     public void reveal(int row, int col)
     {
         /*
-        * If the tile is already opened, nothing else needs to occur.
-        * Likewise, a flagged tile should not be revealed. 
-        */
+         * If the tile is already opened, nothing else needs to occur.
+         * Likewise, a flagged tile should not be revealed. 
+         */
         if (board[row][col] == OPENED || getState(row, col) == FLAGGED) {return;}
 
         //If it's the first move of the game, generate mines and reveal nearby tiles
@@ -266,13 +242,6 @@ public class MineBoard implements Serializable
     }
 
     /**
-     * Returns the state of the specified tile.
-     * @param row Designates the row.
-     * @param col Desginates the column.
-     */
-    public int getState(int row, int col) {return gameBoard[row][col];}
-
-    /**
      * Declares whether or not the game should end.
      * @param gameOver boolean value representing the game's state.
      */
@@ -282,6 +251,22 @@ public class MineBoard implements Serializable
      * Returns True if the game is over.
      */
     public boolean isGameOver() {return gameOver;}
+
+    /**
+     * Determines whether or not the tile at the specified position is a mine or not.
+     * @param row The row of the tile to evaluate.
+     * @param col The column of the tile to evaluate.
+     * @return True if the tile is a mine
+     */
+    public boolean isMine(int row, int col) {return board[row][col] == MINE;}
+
+     /**
+     * Determines if the given coordinates are within the range of the board.
+     * @param row The row coordinate to check for.
+     * @param col The column coordinate to check for.
+     * @return True if the given coordinates are valid for the board.
+     */
+    public boolean isInRange(int row, int col) {return (col >= 0 && row >= 0 && row < rows && col < columns);}
 
     /**
      * Returns the number of mines remaining
@@ -302,4 +287,18 @@ public class MineBoard implements Serializable
      * Returns the number of flags available.
      */
     public int getFlagCount() {return flagCount;}
+
+    /**
+     * Returns the state of the specified tile.
+     * @param row Designates the row.
+     * @param col Desginates the column.
+     */
+    public int getState(int row, int col) {return gameBoard[row][col];}
+      
+    /**
+     * Generates a random coordinate based upon the number of rows/columns in the board.
+     * @param max The maximum possible coordinate to generate.
+     * @return The generated x/y coordinate.
+     */
+    public int randCoord(int max) {return (int)((Math.random() * max));}
 } 
