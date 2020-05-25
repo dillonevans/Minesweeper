@@ -11,35 +11,29 @@ public class MineFrame extends JFrame
     private MineBoard board;
     private JLabel mineLabel;
     private MinePanel minePanel;
-    
+    private JPanel fileBarPanel, mainPanel, labelPanel;
+    private FileMenu menu;
+    private BorderLayout layout;
+
     public MineFrame(MineBoard board)
     {
         super("Minesweeper Java");
         this.board = board;
-        initializeFrame();
-    }
-    
-    /**
-     * Initializes the contents of the frame
-     */
-    private void initializeFrame()
-    {
-        JPanel fileBarPanel = new JPanel();
-        JPanel mainPanel = new JPanel();
-        JPanel labelPanel = new JPanel();
-        FileMenu menu = new FileMenu(this);
-        BorderLayout layout = new BorderLayout();
+        
+        fileBarPanel = new JPanel();
+        mainPanel = new JPanel();
+        labelPanel = new JPanel();
+        menu = new FileMenu(this);
+        layout = new BorderLayout();
 
         mineLabel = new JLabel();
         minePanel = new MinePanel(this);
-
         labelPanel.add(mineLabel);
         labelPanel.setBackground(Color.WHITE);
         mineLabel.setForeground(Color.RED);
         mineLabel.setFont(new Font("Times", Font.BOLD, 20));
         fileBarPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         fileBarPanel.add(menu);
-        fileBarPanel.setBackground(Color.WHITE);
         minePanel.setBackground(Color.WHITE);
         mainPanel.setLayout(new GridLayout(2, 1));
         mainPanel.add(fileBarPanel);
@@ -54,14 +48,14 @@ public class MineFrame extends JFrame
         setResizable(false);
         dynamicResize();
     }
-
+    
     /**
      * Resizes the frame based on the number of tiles present on the screen
      */
-    public void dynamicResize()
+    public final void dynamicResize()
     {
-        int determinedHeight = minePanel.getImageSize() * board.getRows();
-        int determinedWidth = minePanel.getImageSize() * board.getColumns();
+        int determinedHeight = MinePanel.IMAGE_SIZE * board.getRows();
+        int determinedWidth = MinePanel.IMAGE_SIZE * board.getColumns();
         setSize(determinedWidth + 25, determinedHeight + 75); 
     }
 

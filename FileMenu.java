@@ -2,7 +2,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
-import java.nio.file.*;
 
 /**
  * This class acts as a menu for the player. Here they can change the difficult,
@@ -11,11 +10,10 @@ import java.nio.file.*;
 public class FileMenu extends JMenuBar implements ActionListener
 {
     private static final long serialVersionUID = 459585961076461945L;
-    private Path dir;
+    private JFileChooser fileChooser;
     private File file;
     private MineFrame frame;
-    private JMenuItem easy, medium, hard,loadItem, exitItem, saveItem;
-    private JFileChooser fileChooser;
+    private JMenuItem easy, medium, hard, loadItem, exitItem, saveItem;
     private FileNameExtensionFilter filter;
     private JMenu menu, newGameMenu;
     private ObjectInputStream in;
@@ -25,26 +23,14 @@ public class FileMenu extends JMenuBar implements ActionListener
     {
         super();
         this.frame = frame;
-        initializeMenu();
-    }
-
-    /**
-     * Instantiates objects and adds menu items.
-     */
-    private void initializeMenu()
-    {
         exitItem = new JMenuItem("Quit Game");
         saveItem = new JMenuItem("Save Game");
         loadItem = new JMenuItem("Load Game");
         
         easy = new JMenuItem("Beginner: 10 x 10. 10 Mines");
-        medium= new JMenuItem("Intermdiate: 16 x 16. 40 Mines");
+        medium = new JMenuItem("Intermdiate: 16 x 16. 40 Mines");
         hard = new JMenuItem("Expert: 16 x 30. 99 Mines");
-
-        dir = Paths.get("./Saves").toAbsolutePath();
-        filter = new FileNameExtensionFilter("Saved Game Data", "mine");
-        fileChooser = new JFileChooser(dir.toString());
-
+        filter = new FileNameExtensionFilter("Saved Game Data", "dat");
         menu = new JMenu("File");
         newGameMenu = new JMenu("New Game");
 
@@ -52,15 +38,12 @@ public class FileMenu extends JMenuBar implements ActionListener
         menu.add(newGameMenu);
         menu.add(saveItem);
         menu.add(loadItem);
+
         menu.add(exitItem);
-
-        fileChooser.setFileFilter(filter);
-        fileChooser.setAcceptAllFileFilterUsed(false);
-
         newGameMenu.add(easy);
         newGameMenu.add(medium);
         newGameMenu.add(hard);
-        
+
         easy.addActionListener(this);
         medium.addActionListener(this);
         hard.addActionListener(this);
@@ -75,6 +58,9 @@ public class FileMenu extends JMenuBar implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e) 
     {
+        fileChooser = new JFileChooser(".");
+        fileChooser.setFileFilter(filter);
+        fileChooser.setAcceptAllFileFilterUsed(false);
         String errorMessage = " ";
         Object source = e.getSource();
         JMenuItem temp = (JMenuItem)source;
@@ -104,6 +90,7 @@ public class FileMenu extends JMenuBar implements ActionListener
             //Error handling for any possible issue(s) while loading a file. 
             try
             {  
+              
                 fileVal = fileChooser.showOpenDialog(temp);
                 if (fileVal == JFileChooser.APPROVE_OPTION)
                 {
