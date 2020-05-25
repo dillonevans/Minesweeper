@@ -5,6 +5,5 @@ public class Minesweeper
     {
         MineBoard board = new MineBoard(16,30,99);
         MineFrame mFrame = new MineFrame(board);
-       
     }
 }
