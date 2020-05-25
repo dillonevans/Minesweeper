@@ -42,7 +42,7 @@ public class FileMenu extends JMenuBar implements ActionListener
         hard = new JMenuItem("Expert: 16 x 30. 99 Mines");
 
         dir = Paths.get("./Saves").toAbsolutePath();
-        filter = new FileNameExtensionFilter("Files", "mine");
+        filter = new FileNameExtensionFilter("Saved Game Data", "mine");
         fileChooser = new JFileChooser(dir.toString());
 
         menu = new JMenu("File");
@@ -173,8 +173,6 @@ public class FileMenu extends JMenuBar implements ActionListener
             frame.setModel(board);
             updateFrame();
         }
-
-        
     }
 
     /**
