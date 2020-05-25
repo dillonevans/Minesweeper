@@ -76,9 +76,9 @@ public class MinePanel extends JPanel
      */
     public void refresh()
     {
-        this.removeAll();
+        removeAll();
         initializePanel();
-        this.validate();
+        validate();
     }
 
     /**
@@ -94,7 +94,7 @@ public class MinePanel extends JPanel
     public void updatePanel(int r, int c)
     {
         int state = 0;
-        
+
         //In this case, recursive reveal happens so every tile needs to be checked
         if(frame.getModel().determineAdjacent(r, c) == 0)
         {
