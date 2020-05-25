@@ -10,51 +10,49 @@ public class MineFrame extends JFrame
     
     private MineBoard board;
     private JLabel mineLabel;
-    private JPanel fileBarPanel, mainPanel, labelPanel;
     private MinePanel minePanel;
-    private BorderLayout layout;
-    private FileMenu fileMenu;
-
+    
     public MineFrame(MineBoard board)
     {
         super("Minesweeper Java");
         this.board = board;
         initializeFrame();
     }
-
+    
     /**
      * Initializes the contents of the frame
      */
     private void initializeFrame()
     {
-        fileBarPanel = new JPanel();
-        mainPanel = new JPanel();
-        labelPanel = new JPanel();
-        mineLabel = new JLabel("Mines");
-        fileMenu = new FileMenu(this); //File Menu
-        minePanel = new MinePanel(this); //Houses Mine Tiles
-        layout = new BorderLayout();
+        JPanel fileBarPanel = new JPanel();
+        JPanel mainPanel = new JPanel();
+        JPanel labelPanel = new JPanel();
+        FileMenu menu = new FileMenu(this);
+        BorderLayout layout = new BorderLayout();
+
+        mineLabel = new JLabel();
+        minePanel = new MinePanel(this);
 
         labelPanel.add(mineLabel);
         labelPanel.setBackground(Color.WHITE);
-        mineLabel.setForeground(Color.RED); 
-        mineLabel.setFont( new Font("Times", Font.BOLD, 20));
+        mineLabel.setForeground(Color.RED);
+        mineLabel.setFont(new Font("Times", Font.BOLD, 20));
         fileBarPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        fileBarPanel.add(fileMenu); //Add the menu to the file bar panel
+        fileBarPanel.add(menu);
         fileBarPanel.setBackground(Color.WHITE);
         minePanel.setBackground(Color.WHITE);
         mainPanel.setLayout(new GridLayout(2, 1));
-        mainPanel.add(fileBarPanel); 
+        mainPanel.add(fileBarPanel);
         mainPanel.add(labelPanel);
-        mainPanel.setBackground(Color.WHITE);
-
-        dynamicResize();
+        
         setLayout(layout);
         add(mainPanel, BorderLayout.NORTH);
         add(minePanel, BorderLayout.CENTER);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setBackground(Color.WHITE);
         setVisible(true);
         setResizable(false);
+        dynamicResize();
     }
 
     /**
@@ -64,7 +62,7 @@ public class MineFrame extends JFrame
     {
         int determinedHeight = minePanel.getImageSize() * board.getRows();
         int determinedWidth = minePanel.getImageSize() * board.getColumns();
-        setSize(determinedWidth, determinedHeight + 50); 
+        setSize(determinedWidth + 25, determinedHeight + 75); 
     }
 
     /**
@@ -95,4 +93,5 @@ public class MineFrame extends JFrame
     {
         return this.minePanel;
     }
+
 }
