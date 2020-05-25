@@ -39,12 +39,12 @@ public class MinePanel extends JPanel
             {
                 GameButton tile = new GameButton(frame, x, y);
                 tiles[x][y] = tile;
-                updateTileImage(x, y, frame.getModel().getState(x, y));
+                tiles[x][y].setImage(hidden, IMAGE_SIZE, IMAGE_SIZE);
                 add(tile);
             }
         }
+        repaint();
     }
-
 
     /**
      * Populates a List with ImageIcons for later use
@@ -64,7 +64,6 @@ public class MinePanel extends JPanel
         icons.add(new ImageIcon("img/eight.png"));
         return icons;
     }
-    
 
     /**
      * Reinitializes the panel
@@ -123,7 +122,8 @@ public class MinePanel extends JPanel
         {
             updateTileImage(r, c, frame.getModel().getState(r, c));
         }
-        
+
+           
         //Display all mines if the player loses
         if (frame.getModel().isGameOver() && frame.getModel().getMineCount() > 0)
         {
@@ -155,6 +155,7 @@ public class MinePanel extends JPanel
         {
             JOptionPane.showMessageDialog(null, "You Win!");
         } 
+        repaint();
     }
 
     /**

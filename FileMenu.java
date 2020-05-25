@@ -70,7 +70,7 @@ public class FileMenu extends JMenuBar implements ActionListener
 
         //This block of if-else statements handles player decisions.
         if (temp.equals(easy))
-        {
+        {   
             board = new MineBoard(10,10,10);
         }
         else if (temp.equals(medium))
@@ -90,7 +90,6 @@ public class FileMenu extends JMenuBar implements ActionListener
             //Error handling for any possible issue(s) while loading a file. 
             try
             {  
-              
                 fileVal = fileChooser.showOpenDialog(temp);
                 if (fileVal == JFileChooser.APPROVE_OPTION)
                 {
